@@ -17,7 +17,7 @@ type Clock struct {
 
 // New will create a clock with the given hour and minute
 func New(hour, minute int) Clock {
-	newHour, newMinute := calcRolloverNew(hour, minute)
+	newHour, newMinute := calcRollover(hour, minute, 0, 0)
 	clock := Clock{newMinute, newHour}
 	return clock
 }
@@ -37,59 +37,73 @@ func (clock Clock) Add(minutes int) Clock {
 	return clock
 }
 
-// helper function to handle minute and hour rollover for add
+// helper function to handle minute and hour rollover
 func calcRollover(newHour, newMinute, oldHour, oldMinute int) (hour, minute int) {
-
-	if oldMinute != 0 && 60%oldMinute < newMinute {
-
+	if oldHour == 0 && oldMinute == 0 {
+		hour = newHour
+		minute = newMinute
 	} else {
-		minute = oldMinute + newMinute
+		hour = oldHour
+		minute = oldMinute
 	}
-	// if oldHour
-	return hour, minute
-}
 
-// helper function to handle minute and hour rollover for new
-func calcRolloverNew(newHour, newMinute int) (hour, minute int) {
-	hour = newHour
-	minute = newMinute
 	absNewMinute := int(math.Abs(float64(newMinute)))
-	absNewHour := int(math.Abs(float64(newHour)))
 
 	// handle minute rollover
-	if newMinute == 60 {
+	if newMinute+oldMinute == 60 {
+		// 60 mins, just add an hour
 		hour++
 		minute = 0
-	} else if newMinute > 60 {
-		numHours := newMinute / 60
+	} else if newMinute+oldMinute > 60 {
+		// more than 60 minutes being added
+		numHours := (oldMinute + newMinute) / 60
 		hour += numHours
-		numMinutes := newMinute % 60
+		numMinutes := (newMinute + oldMinute) % 60
 		minute = numMinutes
-	} else if newMinute < 0 {
-		if newMinute > -60 {
-			numHours := int(absNewMinute) / 60
+	} else if newMinute+oldMinute < 0 {
+		// negative minutes
+		if newMinute+oldMinute > -60 {
+			// less than an hour being subtracted
+			hour--
+			minute = 60 + (oldMinute - absNewMinute)
+		} else if newMinute+oldMinute < -60 {
+			// more than one hour being subtracted
+			numHours := (absNewMinute + oldMinute) / 60
 			hour -= numHours
-			numMinutes := newMinute % 60
+			var numMinutes int
+			if (newMinute % 60) == 0 {
+				numMinutes = oldMinute
+			} else {
+				numMinutes = (oldMinute + newMinute) % 60
+			}
+
 			minute = numMinutes
-		}
-		else if newMinute < -60 {
-			
+			if minute < 0 {
+				hour--
+				minute = 60 + (oldMinute - int(math.Abs(float64(minute))))
+			}
+			if (newMinute % 60) != 0 {
+				minute = int(math.Abs(float64(oldMinute - minute)))
+			}
+
 		}
 	} else {
-		minute = newMinute
+		minute = oldMinute + newMinute
 	}
 
 	// handle hour rollover
 	if hour >= 24 {
 		hour = hour % 24
-	} else if hour == -24 {
+	} else if int(math.Abs(float64(hour))) == 24 {
 		hour = 0
 	} else if hour > -24 && hour < 0 {
 		hour = 24 + hour
 	} else if hour < -24 {
-		hour = 24 - absNewHour%24
+		hour = 24 - int(math.Abs(float64(hour)))%24
+		if hour == 24 {
+			hour = 0
+		}
 	}
-
 	return hour, minute
 }
 

@@ -44,7 +44,7 @@ func TestCreateClock(t *testing.T) {
 	t.Log(len(timeTests), "test cases")
 }
 
-/*func TestAddMinutes(t *testing.T) {
+func TestAddMinutes(t *testing.T) {
 	for _, a := range addTests {
 		if got := New(a.h, a.m).Add(a.a); got.String() != a.want {
 			t.Fatalf("New(%d, %d).Add(%d) = %q, want %q",
@@ -52,7 +52,7 @@ func TestCreateClock(t *testing.T) {
 		}
 	}
 	t.Log(len(addTests), "test cases")
-}*/
+}
 
 func TestCompareClocks(t *testing.T) {
 	for _, e := range eqTests {

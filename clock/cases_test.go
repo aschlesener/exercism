@@ -8,26 +8,26 @@ var timeTests = []struct {
 	h, m int
 	want string
 }{
-	{8, 0, "08:00"},      // on the hour
-	{11, 9, "11:09"},     // past the hour
-	{24, 0, "00:00"},     // midnight is zero hours
-	{25, 0, "01:00"},     // hour rolls over
-	{100, 0, "04:00"},    // hour rolls over continuously
-	{1, 60, "02:00"},     // sixty minutes is next hour
-	{0, 160, "02:40"},    // minutes roll over
-	{0, 1723, "04:43"},   // minutes roll over continuously
-	{25, 160, "03:40"},   // hour and minutes roll over
-	{201, 3001, "11:01"}, // hour and minutes roll over continuously
-	{72, 8640, "00:00"},  // hour and minutes roll over to exactly midnight
-	{-1, 15, "23:15"},    // negative hour
-	{-25, 0, "23:00"},    // negative hour rolls over
-	{-24, 0, "00:00"},    // negative hour rolls over
-	{-91, 0, "05:00"},    // negative hour rolls over continuously*/
-	{1, -40, "00:20"},    // negative minutes
-	{1, -160, "22:20"},   // negative minutes roll over
-	{1, -4820, "16:40"},  // negative minutes roll over continuously
-	//	{-25, -160, "20:20"},   // negative hour and minutes both roll over
-	//	{-121, -5810, "22:10"}, // negative hour and minutes both roll over continuously
+	{8, 0, "08:00"},        // on the hour
+	{11, 9, "11:09"},       // past the hour
+	{24, 0, "00:00"},       // midnight is zero hours
+	{25, 0, "01:00"},       // hour rolls over
+	{100, 0, "04:00"},      // hour rolls over continuously
+	{1, 60, "02:00"},       // sixty minutes is next hour
+	{0, 160, "02:40"},      // minutes roll over
+	{0, 1723, "04:43"},     // minutes roll over continuously
+	{25, 160, "03:40"},     // hour and minutes roll over
+	{201, 3001, "11:01"},   // hour and minutes roll over continuously
+	{72, 8640, "00:00"},    // hour and minutes roll over to exactly midnight
+	{-1, 15, "23:15"},      // negative hour
+	{-25, 0, "23:00"},      // negative hour rolls over
+	{-24, 0, "00:00"},      // negative hour rolls over
+	{-91, 0, "05:00"},      // negative hour rolls over continuously*/
+	{1, -40, "00:20"},      // negative minutes
+	{1, -160, "22:20"},     // negative minutes roll over
+	{1, -4820, "16:40"},    // negative minutes roll over continuously
+	{-25, -160, "20:20"},   // negative hour and minutes both roll over
+	{-121, -5810, "22:10"}, // negative hour and minutes both roll over continuously
 }
 
 // Test adding and subtracting minutes.
@@ -90,64 +90,64 @@ var eqTests = []struct {
 		hm{99, 11},
 		true,
 	},
-	/*	// clocks with negative hour
-		{
-			hm{22, 40},
-			hm{-2, 40},
-			true,
-		},
-		// clocks with negative hour that wraps
-		{
-			hm{17, 3},
-			hm{-31, 3},
-			true,
-		},
-		// clocks with negative hour that wraps multiple times
-		{
-			hm{13, 49},
-			hm{-83, 49},
-			true,
-		},
-		// clocks with minute overflow
-		{
-			hm{0, 1},
-			hm{0, 1441},
-			true,
-		},
-		// clocks with minute overflow by several days
-		{
-			hm{2, 2},
-			hm{2, 4322},
-			true,
-		},
-		// clocks with negative minute
-		{
-			hm{2, 40},
-			hm{3, -20},
-			true,
-		},
-		// clocks with negative minute that wraps
-		{
-			hm{4, 10},
-			hm{5, -1490},
-			true,
-		},
-		// clocks with negative minute that wraps multiple times
-		{
-			hm{6, 15},
-			hm{6, -4305},
-			true,
-		},
-		// clocks with negative hours and minutes
-		{
-			hm{7, 32},
-			hm{-12, -268},
-			true,
-		},
-		// clocks with negative hours and minutes that wrap
-		{
-			hm{18, 7},
-			hm{-54, -11513},
-			true,
-		},*/
+	// clocks with negative hour
+	{
+		hm{22, 40},
+		hm{-2, 40},
+		true,
+	},
+	// clocks with negative hour that wraps
+	{
+		hm{17, 3},
+		hm{-31, 3},
+		true,
+	},
+	// clocks with negative hour that wraps multiple times
+	{
+		hm{13, 49},
+		hm{-83, 49},
+		true,
+	},
+	// clocks with minute overflow
+	{
+		hm{0, 1},
+		hm{0, 1441},
+		true,
+	},
+	// clocks with minute overflow by several days
+	{
+		hm{2, 2},
+		hm{2, 4322},
+		true,
+	},
+	// clocks with negative minute
+	{
+		hm{2, 40},
+		hm{3, -20},
+		true,
+	},
+	// clocks with negative minute that wraps
+	{
+		hm{4, 10},
+		hm{5, -1490},
+		true,
+	},
+	// clocks with negative minute that wraps multiple times
+	{
+		hm{6, 15},
+		hm{6, -4305},
+		true,
+	},
+	// clocks with negative hours and minutes
+	{
+		hm{7, 32},
+		hm{-12, -268},
+		true,
+	},
+	// clocks with negative hours and minutes that wrap
+	{
+		hm{18, 7},
+		hm{-54, -11513},
+		true,
+	},
 }
