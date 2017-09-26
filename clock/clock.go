@@ -1,8 +1,8 @@
 package clock
 
 import (
+	"fmt"
 	"math"
-	"strconv"
 )
 
 // The value of testVersion here must match `targetTestVersion` in the file
@@ -24,9 +24,7 @@ func New(hour, minute int) Clock {
 
 // String turns a clock into a string representation
 func (clock Clock) String() string {
-	hour := padLeftZeroes(strconv.FormatInt(int64(clock.Hour), 10), 2)
-	minute := padLeftZeroes(strconv.FormatInt(int64(clock.Minute), 10), 2)
-	return hour + ":" + minute
+	return fmt.Sprintf("%02d:%02d", clock.Hour, clock.Minute)
 }
 
 // Add will add a given amount of minutes to the clock
@@ -38,6 +36,7 @@ func (clock Clock) Add(minutes int) Clock {
 }
 
 // helper function to handle minute and hour rollover
+// TODO: this can be simplified
 func calcRollover(newHour, newMinute, oldHour, oldMinute int) (hour, minute int) {
 	if oldHour == 0 && oldMinute == 0 {
 		hour = newHour
@@ -105,12 +104,4 @@ func calcRollover(newHour, newMinute, oldHour, oldMinute int) (hour, minute int)
 		}
 	}
 	return hour, minute
-}
-
-// helper function to pad a string with zeroes because apparently that's not built in
-func padLeftZeroes(str string, num int) string {
-	for i := 1; i <= num-len(str); i++ {
-		str = "0" + str
-	}
-	return str
 }
